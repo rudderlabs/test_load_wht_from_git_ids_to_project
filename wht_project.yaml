@@ -1,0 +1,5 @@
+name: sample_test
+profile: test
+model_folders:
+  - models
+
