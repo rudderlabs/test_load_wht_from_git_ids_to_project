@@ -1,9 +1,9 @@
 resources:
   domain_profile:
-    resourceType: FeatureTableModel
-    resourceSpec:
-      validityTime: 24h # 1 day
-      idStitching:
+    resource_type: FeatureTableModel
+    resource_spec:
+      validity_time: 24h # 1 day
+      id_stitching:
         id_types:
           types:
             salesforce_id:
@@ -13,7 +13,7 @@ resources:
         inputs:
           # For every input model, we need to know the column expression which gives identity of each row in the column.
           - name: websitePageVisits
-            ref: { table: autotrack.pages, timestampCol: timestamp }
+            ref: { table: autotrack.pages, timestamp_col: timestamp }
             ids:
               - sql: "anonymous_id"
                 type: rudder_anon_id
@@ -21,7 +21,7 @@ resources:
                      else split_part(lower(coalesce(context_traits_email, user_id)),'@',2) end"
                 type: email
           - name: salesForceLeadsTable
-            ref: { table: salesforce.lead, timestampCol: createddate }
+            ref: { table: salesforce.lead, timestamp_col: createddate }
             ids:
               - sql: "id"
                 type: salesforce_id
