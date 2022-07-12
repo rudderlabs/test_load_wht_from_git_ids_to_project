@@ -1,3 +1,4 @@
 name: sample_test
 profile: test
-
+models_folder:
+  - models
