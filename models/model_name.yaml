@@ -1,6 +1,6 @@
 resources:
   domain_profile:
-    resource_type: FeatureTableModel
+    resource_type: feature_table_model
     resource_spec:
       validity_time: 24h # 1 day
       id_stitching:
