@@ -1,3 +1,5 @@
-name: sample_test
+name: sample_attribution
 profile: test
+model_folders:
+  - models
 
