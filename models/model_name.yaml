@@ -5,30 +5,33 @@ resources:
       validity_time: 24h # 1 day
       id_stitching:
         id_types:
-          types:
-            salesforce_id:
-            rudder_anon_id:
-            email:
-            domain:
+          salesforce_id:
+          rudder_anon_id:
+          email:
+          domain:
         inputs:
           # For every input model, we need to know the column expression which gives identity of each row in the column.
           - name: websitePageVisits
-            ref: { table: autotrack.pages, timestamp_col: timestamp }
-            ids:
-              - sql: "anonymous_id"
-                type: rudder_anon_id
-              - sql: "case when lower(coalesce(context_traits_email, user_id)) like any ('%gmail%', '%yahoo%') then lower(coalesce(context_traits_email, user_id))  \
-                     else split_part(lower(coalesce(context_traits_email, user_id)),'@',2) end"
-                type: email
+            ref:
+              table: autotrack.pages
+              timestamp_col: timestamp
+              ids:
+                - sql: "anonymous_id"
+                  type: rudder_anon_id
+                - sql: "case when lower(coalesce(context_traits_email, user_id)) like any ('%gmail%', '%yahoo%') then lower(coalesce(context_traits_email, user_id))  \
+                       else split_part(lower(coalesce(context_traits_email, user_id)),'@',2) end"
+                  type: email
           - name: salesForceLeadsTable
-            ref: { table: salesforce.lead, timestamp_col: createddate }
-            ids:
-              - sql: "id"
-                type: salesforce_id
-              - sql: "case when lower(user_id) like any ('%gmail%', '%yahoo%') then lower(user_id)  else split_part(lower(user_id),'@',2) end"
-                type: email
-              - sql: "case when lower(email) like any ('%gmail%', '%yahoo%') then lower(email)  else split_part(lower(email),'@',2) end"
-                type: email
+            ref:
+              table: salesforce.lead
+              timestamp_col: createddate
+              ids:
+                - sql: "id"
+                  type: salesforce_id
+                - sql: "case when lower(user_id) like any ('%gmail%', '%yahoo%') then lower(user_id)  else split_part(lower(user_id),'@',2) end"
+                  type: email
+                - sql: "case when lower(email) like any ('%gmail%', '%yahoo%') then lower(email)  else split_part(lower(email),'@',2) end"
+                  type: email
       features:
         - feature:
             name: is_mql
