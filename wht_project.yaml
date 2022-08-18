@@ -2,3 +2,11 @@ name: sample_attribution
 profile: test
 model_folders:
   - models
+entities:
+  - name: user
+    id_types:
+      - name: main_id
+      - name: salesforce_id
+      - name: rudder_anon_id
+      - name: email
+      - name: domain
