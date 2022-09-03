@@ -1,5 +1,13 @@
 name: sample_attribution
+schema_version: 2
 profile: test
+entities:
+  - name: user
+    id_types:
+      - name: main_id
+      - name: salesforce_id
+      - name: rudder_anon_id
+      - name: email
+      - name: domain
 model_folders:
   - models
-

@@ -1,14 +1,11 @@
 resources:
-  domain_profile:
+  - name: domain_profile
+    entity_key: user
     resource_type: feature_table_model
     resource_spec:
       validity_time: 24h # 1 day
       id_stitching:
-        id_types:
-          salesforce_id:
-          rudder_anon_id:
-          email:
-          domain:
+        main_id_type: main_id
         inputs:
           # For every input model, we need to know the column expression which gives identity of each row in the column.
           - name: websitePageVisits
