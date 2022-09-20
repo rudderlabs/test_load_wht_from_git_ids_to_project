@@ -1,5 +1,4 @@
 name: sample_attribution
-schema_version: 2
 profile: test
 model_folders:
   - models
@@ -7,7 +6,10 @@ entities:
   - name: user
     id_types:
       - name: main_id
-      - name: salesforce_id
-      - name: rudder_anon_id
-      - name: email
-      - name: domain
+      - name: test_id
+        filters:
+          - type: include
+            regex: "([0-9a-z])*"
+          - type: exclude
+            value: ""
+      - name: exclude_id

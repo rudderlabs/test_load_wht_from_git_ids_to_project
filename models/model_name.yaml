@@ -1,40 +1,60 @@
 resources:
-  - name: domain_profile
+  - name: test_feature_table
     entity_key: user
     resource_type: feature_table_model
     resource_spec:
       validity_time: 24h # 1 day
       id_stitching:
         main_id_type: main_id
+        exclude_id_types:
+          - exclude_id
         inputs:
           # For every input model, we need to know the column expression which gives identity of each row in the column.
-          - name: websitePageVisits
+          - name: tbl_a
             ref:
-              table: autotrack.pages
+              table: Temp_tbl_a
+              timestamp_col: insert_ts
+              ids:
+                - sql: "id1"
+                  type: test_id
+                - sql: "id2"
+                  type: test_id
+          - name: tbl_b
+            ref:
+              table: Temp_tbl_b
               timestamp_col: timestamp
               ids:
-                - sql: "anonymous_id"
-                  type: rudder_anon_id
-                - sql: "case when lower(coalesce(context_traits_email, user_id)) like any ('%gmail%', '%yahoo%') then lower(coalesce(context_traits_email, user_id))  \
-                       else split_part(lower(coalesce(context_traits_email, user_id)),'@',2) end"
-                  type: email
-          - name: salesForceLeadsTable
+                - sql: "id1"
+                  type: test_id
+                - sql: "id2"
+                  type: test_id
+          - name: tbl_c
             ref:
-              table: salesforce.lead
-              timestamp_col: createddate
+              table: Temp_tbl_c
               ids:
-                - sql: "id"
-                  type: salesforce_id
-                - sql: "case when lower(user_id) like any ('%gmail%', '%yahoo%') then lower(user_id)  else split_part(lower(user_id),'@',2) end"
-                  type: email
-                - sql: "case when lower(email) like any ('%gmail%', '%yahoo%') then lower(email)  else split_part(lower(email),'@',2) end"
-                  type: email
+                - sql: "id1"
+                  type: test_id
+                - sql: "id2"
+                  type: test_id
       features:
-        - feature:
-            name: is_mql
-            value: is_mql_tablevar 
-            description: Whether a domain is mql or not
+        - tablefeature:
+            name: a_max
+            table: tbl_a
+            value: max(tbl_a.num_a)
         - tablevar:
-            name: is_mql_tablevar
-            table: salesForceLeadsTable
-            value: max(case when salesForceLeadsTable.mql__c == 'True' then 1 else 0 end)
+            name: a_num_min
+            table: tbl_a
+            value: min(tbl_a.num_a)
+        - macro:
+            name: a_num_range
+            value: a_max - a_num_min
+        - feature:
+            name: a_range
+            value: macro(a_num_range)
+        - tablevar:
+            name: c_num_max
+            table: tbl_c
+            value: max(tbl_c.num_c)
+        - feature:
+            name: c_max
+            value: c_num_max
